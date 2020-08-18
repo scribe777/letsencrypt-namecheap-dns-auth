@@ -35,7 +35,7 @@
 #	(see SANDBOX section below)
 #
 #	provide this script to certbox-2 when renewing, e.g.,
-#	certbot-2 renew --manual-auth-hook=/root/letsencrypt-namecheap-auth.sh
+#	certbot-2 renew --manual-auth-hook=/root/letsencrypt-namecheap-dns-auth.sh
 #
 #	Probably put the above command in a monthly cron job
 #
