@@ -28,13 +28,15 @@
 # QuickStart: Don't quickstart.  Read everything up to this point first.
 #	You'll need the wget and dig commands available
 #	Enable API access on your NameCheap Account and obtain your APIKey
-#	Whitelist the IP of the server from where you will run this script
+#	In NameCheap's API section, whitelist the IP of the server
+#		from where you will run this script
 #	Configure this script with your NameCheap userID, APIKey, and whitelisted IP address
 #
-#	TEST THIS SCRIPT BY CONFIGURING IT TO A SANDBOX ACCOUNT YOU'VE SETUP AT: https://ap.www.sandbox.namecheap.com/
+#	TEST THIS SCRIPT BY CONFIGURING IT TO A SANDBOX ACCOUNT YOU'VE SETUP AT:
+#	https://ap.www.sandbox.namecheap.com/
 #	(see SANDBOX section below)
 #
-#	provide this script to certbox-2 when renewing, e.g.,
+#	provide this script to certbot-2 when renewing, e.g.,
 #	certbot-2 renew --manual-auth-hook=/root/letsencrypt-namecheap-dns-auth.sh
 #
 #	Probably put the above command in a monthly cron job
@@ -144,3 +146,8 @@ else
 	echo "Not yet found."
 fi
 done
+
+# cleanup
+# comment out these lines if you want to see some output from our commands, above
+rm -f /tmp/testapi.out
+rm -f /tmp/getHosts.xml
