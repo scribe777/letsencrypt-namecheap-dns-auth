@@ -135,19 +135,19 @@ APICOMMAND="${APICOMMAND}&HostName${ENTRYNUM}=_acme-challenge&RecordType${ENTRYN
 wget -O /tmp/testapi.out "${SERVICEURL}?ClientIp=${CLIENTIP}&ApiUser=${NCUSER}&ApiKey=${NCAPIKEY}&UserName=${NCUSER}&Command=${APICOMMAND}"
 
 # Actually, FINALLY, we need to wait for our records to propagate before letting certbot continue.
-# Because we "echo" output here, certbot things there might have been something that went wrong.  It doesn't effect the successful
-# completion of the domain cert renewal.  I like to see the output.  You might rather like to see certbot think everything went
-# perfect and comment out the "echo" lines below.
+# Because we "echo" output here, certbot things there might have been something that went wrong.  It doesn't effect
+# the successful completion of the domain cert renewal.  I like to see the output.  You might rather like to
+# see certbot think everything went perfect and comment out the "echo" lines below.
 FOUND=false
 while [[ "${FOUND}" != "true" ]]; do
-echo "Sleeping for ${WAITSECONDS} seconds..."
-CURRENT_ACME_VALIDATION=$(dig -t TXT _acme-challenge.${CERTBOT_DOMAIN}|grep "^_acme-challenge.${CERTBOT_DOMAIN}."|cut -d\" -f 2)
-if [[ "${CERTBOT_VALIDATION}" == "${CURRENT_ACME_VALIDATION}" ]]; then
-	FOUND=true
-	echo "Found!"
-else
-	echo "Not yet found."
-fi
+	echo "Sleeping for ${WAITSECONDS} seconds..."
+	CURRENT_ACME_VALIDATION=$(dig -t TXT _acme-challenge.${CERTBOT_DOMAIN}|grep "^_acme-challenge.${CERTBOT_DOMAIN}."|cut -d\" -f 2)
+	if [[ "${CERTBOT_VALIDATION}" == "${CURRENT_ACME_VALIDATION}" ]]; then
+		FOUND=true
+		echo "Found!"
+	else
+		echo "Not yet found."
+	fi
 done
 
 # cleanup
