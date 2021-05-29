@@ -91,6 +91,10 @@ NCAPIKEY=9zzzzzzzzzzzzzzzzzzzzzzzzzzzzzf4
 # number of seconds to wait between checks for our certbot validation records to finish propagation
 WAITSECONDS=10
 
+# if we are running a local bind server to cache DNS entries, we probably want to flush our cache
+# between each check for our challenge certificate
+FLUSH_LOCAL_BIND_SERVER=true
+
 # --------------- End configurable section --------------------------------
 
 
@@ -141,6 +145,12 @@ wget -O /tmp/testapi.out "${SERVICEURL}?ClientIp=${CLIENTIP}&ApiUser=${NCUSER}&A
 FOUND=false
 while [[ "${FOUND}" != "true" ]]; do
 	echo "Sleeping for ${WAITSECONDS} seconds..."
+	sleep ${WAITSECONDS}
+	if [[ "${FLUSH_LOCAL_BIND_SERVER}" == "true" ]]; then
+		rndc flush
+		rndc reload
+	fi
+
 	CURRENT_ACME_VALIDATION=$(dig -t TXT _acme-challenge.${CERTBOT_DOMAIN}|grep "^_acme-challenge.${CERTBOT_DOMAIN}."|cut -d\" -f 2)
 	if [[ "${CERTBOT_VALIDATION}" == "${CURRENT_ACME_VALIDATION}" ]]; then
 		FOUND=true
